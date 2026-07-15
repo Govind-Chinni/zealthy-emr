@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+//generator client {
+//  provider = "prisma-client"
+//  output   = "../app/generated/prisma"
+//}
+
+//datasource db {
+//  provider = "postgresql"
+//}
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int            @id @default(autoincrement())
+  name          String
+  email         String         @unique
+  passwordHash  String
+  createdAt     DateTime       @default(now())
+  appointments  Appointment[]
+  prescriptions Prescription[]
+}
+
+model Appointment {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider       String
+  datetime       DateTime
+  repeatSchedule String    @default("none")
+  endsOn         DateTime?
+  createdAt      DateTime  @default(now())
+}
+
+model Prescription {
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  medication     String
+  dosage         String
+  quantity       Int
+  refillOn       DateTime
+  refillSchedule String
+  createdAt      DateTime @default(now())
+}
+
+model Medication {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
+model Dosage {
+  id    Int    @id @default(autoincrement())
+  value String @unique
+}
