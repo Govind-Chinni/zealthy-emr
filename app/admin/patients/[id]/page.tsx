@@ -7,6 +7,7 @@ import AppointmentSection from '@/components/admin/AppointmentSection'
 import PrescriptionSection from '@/components/admin/PrescriptionSection'
 import EditPatientForm from '@/components/admin/EditPatientForm'
 
+export const dynamic = 'force-dynamic'
 export default async function PatientDetailPage({
   params,
 }: {

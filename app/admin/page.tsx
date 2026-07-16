@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { format } from 'date-fns'
 import { Users, ChevronRight, Calendar, Pill, UserPlus } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
 export default async function AdminPage() {
   const patients = await prisma.user.findMany({
     orderBy: { createdAt: 'desc' },
